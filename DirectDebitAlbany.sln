@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectDebitAlbany", "DirectDebitAlbany\DirectDebitAlbany.csproj", "{9BC0A159-8124-4969-BCC4-9474EE817FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectDebitAlbanyTest", "DirectDebitAlbanyTest\DirectDebitAlbanyTest.csproj", "{809DAD1C-D480-467F-8019-9D19E4DE57C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9022503-9D89-4FBF-BE45-6456EB28BC76}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BC0A159-8124-4969-BCC4-9474EE817FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC0A159-8124-4969-BCC4-9474EE817FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC0A159-8124-4969-BCC4-9474EE817FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC0A159-8124-4969-BCC4-9474EE817FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809DAD1C-D480-467F-8019-9D19E4DE57C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809DAD1C-D480-467F-8019-9D19E4DE57C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809DAD1C-D480-467F-8019-9D19E4DE57C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809DAD1C-D480-467F-8019-9D19E4DE57C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

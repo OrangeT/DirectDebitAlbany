@@ -1,0 +1,17 @@
+# git ignore file
+obj
+bin
+packages
+*TeamCity*
+_ReSharper*
+Hexcentric.sln.DotSettings.user
+*.suo
+*.swp
+*.swo
+UpgradeLog*.XML
+_UpgradeReport_Files/
+Deployment/
+Backup/
+*.user
+tags
+TestResults/
