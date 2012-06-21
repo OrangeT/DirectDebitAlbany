@@ -51,6 +51,7 @@
     <Compile Include="OriginatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordTest.cs" />
+    <Compile Include="SerializedAccountTest.cs" />
     <Compile Include="SugarTest.cs" />
   </ItemGroup>
   <ItemGroup>
