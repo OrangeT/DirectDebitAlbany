@@ -73,6 +73,10 @@ namespace OrangeTentacle.DirectDebitAlbany
             if (Number.Length == 10 && Bank == DirectDebitAlbany.Bank.Coop)
                 account.Number = Number.Substring(0, 8);
 
+            account.SortCode = SortCode;
+
+            account.Name = Name.FixedWidth(18);
+
             return account;
         }
     }

@@ -50,6 +50,7 @@
     <Compile Include="Record.cs" />
     <Compile Include="SerializedAccount.cs" />
     <Compile Include="TransCode.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

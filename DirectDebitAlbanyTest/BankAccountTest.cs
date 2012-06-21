@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using OrangeTentacle.DirectDebitAlbany;
 using Xunit;
 using Xunit.Extensions;
@@ -202,6 +203,52 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var serialize = account.Serialize();
 
                     Assert.Equal(expected, serialize.Number);
+                }
+            }
+
+            public class SortCode
+            {
+                [Fact]
+                public void SixDigits()
+                {
+                    var account = new BankAccount(NUMBER, SORTCODE, NAME);
+
+                    var serialize = account.Serialize();
+
+                    Assert.Equal(SORTCODE, serialize.SortCode);
+                }
+            }
+
+            public class AccountName
+            {
+                [Fact]
+                public void Uppercase()
+                {
+                    var account = new BankAccount(NUMBER, SORTCODE, NAME);
+
+                    var serialize = account.Serialize();
+
+                    Assert.True(Regex.IsMatch(serialize.Name, @"^[A-Z\s]+$"));
+                }
+
+                [Fact]
+                public void Long_Names_Truncate()
+                {
+                    var longname = "Mr Bob Johnny Martin Horrocks III";
+                    var account = new BankAccount(NUMBER, SORTCODE, longname);
+                    var serialize = account.Serialize();
+
+                    Assert.Equal("MR BOB JOHNNY MART", serialize.Name);
+                }
+
+                [Fact]
+                public void Short_Name_Pad()
+                {
+                    var shortname = "Bob";
+                    var account = new BankAccount(NUMBER, SORTCODE, shortname);
+                    var serialize = account.Serialize();
+
+                    Assert.Equal("BOB               ", serialize.Name);
                 }
             }
         }
