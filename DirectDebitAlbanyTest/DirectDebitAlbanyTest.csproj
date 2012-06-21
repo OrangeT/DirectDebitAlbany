@@ -43,10 +43,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankAccountTest.cs" />
+    <Compile Include="DestinationTest.cs" />
+    <Compile Include="OriginatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectDebitAlbany\DirectDebitAlbany.csproj">
+      <Project>{9BC0A159-8124-4969-BCC4-9474EE817FC7}</Project>
+      <Name>DirectDebitAlbany</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
