@@ -75,12 +75,61 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
             [InlineData("123456")]
             [InlineData("1234567")]
             [InlineData("12345678")]
-            [InlineData("123456789")]
-            [InlineData("1234567890")]
-            public void Number_Between_Six_And_Ten_Digits(string number)
+            public void All_Banks_6_Eight_Digits(string number)
             {
                 var account = new BankAccount(number, SORTCODE, NAME, Bank.Natwest);
                 Assert.Equal(number, account.Number);
+                Assert.Equal(Bank.Natwest, account.Bank);
+            }
+
+            [Theory]
+            [InlineData(Bank.AllianceAndLeicester)]
+            [InlineData(Bank.NationalSavings)]
+            [InlineData(Bank.NavionalAndProvincial)]
+            public void Valid_Banks_For_Nine_Number(Bank bank)
+            {
+                var number = "123456789";
+                var account = new BankAccount(number, SORTCODE, NAME, bank);
+
+                Assert.Equal(number, account.Number);
+                Assert.Equal(bank, account.Bank);
+            }
+
+            [Theory]
+            [InlineData(Bank.Natwest)]
+            [InlineData(Bank.Coop)]
+            [InlineData(Bank.Other)]
+            public void Invalid_Banks_For_Nine_Number(Bank bank)
+            {
+                var number = "123456789";
+
+                Assert.Throws<DirectDebitException>(
+                        () => new BankAccount(number, SORTCODE, NAME, bank));
+            }
+
+            [Theory]
+            [InlineData(Bank.Natwest)]
+            [InlineData(Bank.Coop)]
+            public void Valid_Banks_For_Ten_Number(Bank bank)
+            {
+                var number = "1324567890";
+                var account = new BankAccount(number, SORTCODE, NAME, bank);
+
+                Assert.Equal(number, account.Number);
+                Assert.Equal(bank, account.Bank);
+            }
+
+            [Theory]
+            [InlineData(Bank.AllianceAndLeicester)]
+            [InlineData(Bank.NationalSavings)]
+            [InlineData(Bank.NavionalAndProvincial)]
+            [InlineData(Bank.Other)]
+            public void Invalid_Banks_For_Ten_Number(Bank bank)
+            {
+                var number = "1234567890";
+
+                Assert.Throws<DirectDebitException>(
+                        () => new BankAccount(number, SORTCODE, NAME, bank));
             }
 
             [Theory]
@@ -90,7 +139,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
             public void Invalid_Number(string number)
             {
                 Assert.Throws<DirectDebitException>(
-                        () => new BankAccount(number, SORTCODE, NAME));
+                        () => new BankAccount(number, SORTCODE, NAME, Bank.Natwest));
             }
         }
 
@@ -130,6 +179,30 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var account2 = new BankAccount(NUMBER, SORTCODE, NAME);
 
                 Assert.Equal(account1, account2);
+            }
+        }
+
+        public class Serialize
+        {
+            public class Number
+            {
+                [Theory]
+                [InlineData("123456", "00123456", Bank.Other)]
+                [InlineData("1234567", "01234567", Bank.Other)]
+                [InlineData("12345678", "12345678", Bank.Other)]
+                [InlineData("123456789", "23456789", Bank.AllianceAndLeicester)]
+                [InlineData("123456789", "23456789", Bank.NationalSavings)]
+                [InlineData("123456789", "23456789", Bank.NavionalAndProvincial)]
+                [InlineData("1234567890", "34567890", Bank.Natwest)]
+                [InlineData("1234567890", "12345678", Bank.Coop)]
+                public void Valid_Data(string number, string expected, Bank bank)
+                {
+                    var account = new BankAccount(number, SORTCODE, NAME, bank);
+
+                    var serialize = account.Serialize();
+
+                    Assert.Equal(expected, serialize.Number);
+                }
             }
         }
     }

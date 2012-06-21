@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
@@ -7,6 +8,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         public string Number { get; protected set; }
         public string SortCode { get; protected set; }
         public string Name { get; protected set; }
+        public Bank? Bank { get; protected set; }
 
         private BankAccount(string number, string sortCode, string name,
                 int lower, int higher)
@@ -40,6 +42,13 @@ namespace OrangeTentacle.DirectDebitAlbany
         public BankAccount(string number, string sortCode, string name, Bank bank)
             : this(number, sortCode, name, 6, 10)
         {
+            if (number.Length == 9 && ! BankValidation.Nine.Contains(bank))
+                throw new DirectDebitException("Bank Invalid for length of number");
+
+            if (number.Length == 10 && ! BankValidation.Ten.Contains(bank))
+                throw new DirectDebitException("Bank Invalid for length of number");
+
+            Bank = bank;
         }
 
         public override bool Equals(object obj)
@@ -50,6 +59,21 @@ namespace OrangeTentacle.DirectDebitAlbany
 
             return Number.Equals(bankAccount.Number) 
                 && SortCode.Equals(bankAccount.SortCode);
+        }
+
+        public SerializedAccount Serialize()
+        {
+            var account = new SerializedAccount();
+            if (Number.Length <= 8)
+                account.Number = Number.PadLeft(8, '0');
+            if (Number.Length == 9)
+                account.Number = Number.Substring(1, 8);
+            if (Number.Length == 10 && Bank == DirectDebitAlbany.Bank.Natwest)
+                account.Number = Number.Substring(2, 8);
+            if (Number.Length == 10 && Bank == DirectDebitAlbany.Bank.Coop)
+                account.Number = Number.Substring(0, 8);
+
+            return account;
         }
     }
 }

@@ -1,9 +1,12 @@
-public enum Bank
+namespace OrangeTentacle.DirectDebitAlbany
 {
-    Natwest,
-    Coop,
-    AllianceAndLeicester,
-    NationalSavings,
-    NavionalAndProvincial,
-    Other
+    public enum Bank
+    {
+        Natwest,
+        Coop,
+        AllianceAndLeicester,
+        NationalSavings,
+        NavionalAndProvincial,
+        Other
+    }
 }
