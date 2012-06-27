@@ -1,4 +1,6 @@
 using System;
+using System.Reflection;
+using System.Text;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
@@ -37,5 +39,26 @@ namespace OrangeTentacle.DirectDebitAlbany
 
             return val.PadLeft(length, '0');
         }
+
+        public static string ComposeLine<T>(string[] fields, object target)
+        {
+            var composed = new StringBuilder();
+            
+            foreach(var field in fields)
+            {
+                if (field.ToUpper() == "LINE")
+                    throw new DirectDebitException("Parameters may not contain Line");
+
+                var p = typeof(T).GetProperty(field, 
+                        BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (p == null)
+                    throw new DirectDebitException("Property Not Found");
+
+                composed.Append(p.GetValue(target, null).ToString());
+            }
+
+            return composed.ToString();
+        }
+
     }
 }

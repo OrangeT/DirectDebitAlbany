@@ -1,6 +1,4 @@
 using System;
-using System.Reflection;
-using System.Text;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
@@ -31,22 +29,7 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         public string Line(string[] fields)
         {
-            var composed = new StringBuilder();
-            
-            foreach(var field in fields)
-            {
-                if (field.ToUpper() == "LINE")
-                    throw new DirectDebitException("Parameters may not contain Line");
-
-                var p = typeof(SerializedAccount).GetProperty(field, 
-                        BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (p == null)
-                    throw new DirectDebitException("Property Not Found");
-
-                composed.Append(p.GetValue(this, null).ToString());
-            }
-
-            return composed.ToString();
+            return Sugar.ComposeLine<SerializedAccount>(fields, this);
         }
     }
 }

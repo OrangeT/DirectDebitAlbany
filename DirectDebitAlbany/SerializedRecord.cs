@@ -8,12 +8,16 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Originator { get; }
         string Destination { get; }
         string Line();
+        string Line(string[] fields);
     }
 
     public class SerializedRecord : ISerializedRecord
     {
         internal SerializedRecord()
         {}
+
+        public readonly static string[] DEFAULT_FIELDS = new [] { "Destination", "TransCode", 
+            "Originator", "Amount", "Reference" };
 
         public string TransCode { get; internal set; }
         public string Amount { get; internal set; }
@@ -23,7 +27,12 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         public string Line()
         {
-            return Destination + TransCode + Originator + Amount + Reference;
+            return Line(DEFAULT_FIELDS);
+        }
+
+        public string Line(string[] fields)
+        {
+            return Sugar.ComposeLine<SerializedRecord>(fields, this);
         }
     }
 }
