@@ -10,7 +10,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 [Fact]
                 public void Composed()
                 {
-                    var account = new BankAccount(BankAccountTest.NUMBER, BankAccountTest.SORTCODE, BankAccountTest.NAME);
+                    var account = new BankAccount(BankAccountTest.NUMBER, 
+                            BankAccountTest.SORTCODE, BankAccountTest.NAME);
 
                     var serialize = account.Serialize();
 
