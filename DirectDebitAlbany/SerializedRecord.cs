@@ -7,6 +7,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Reference { get; }
         string Originator { get; }
         string Destination { get; }
+        string Line { get; }
     }
 
     public class SerializedRecord : ISerializedRecord
@@ -19,5 +20,11 @@ namespace OrangeTentacle.DirectDebitAlbany
         public string Reference { get; internal set; }
         public string Originator { get; internal set; }
         public string Destination { get; internal set; }
+
+        public string Line { 
+            get {
+                return Destination + TransCode + Originator + Amount + Reference;
+            }
+        }
     }
 }

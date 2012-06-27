@@ -184,7 +184,6 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     Assert.Equal("TESTTEST", serialized.Destination);
                 }
             }
- 
         }
     }
 }

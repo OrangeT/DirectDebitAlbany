@@ -14,14 +14,27 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
             [Fact]
             public void Compose()
             {
-                var serialized = new Mock<SerializedRecord>()
-                    .SetupProperty(x => x.Amount, "00000012345")
-                    .SetupProperty(x => x.Reference, "               REF")
-                    .SetupProperty(x => x.TransCode, "0C")
-                    .Object;
+                var originator = new Mock<IBankAccount>();
+                var serializedOriginator = new Mock<ISerializedAccount>();
 
+                serializedOriginator.Setup(x => x.Line).Returns("ORIGINATOR");
+                originator.Setup(x => x.Serialize()).Returns(serializedOriginator.Object);
 
+                var destination = new Mock<IBankAccount>();
+                var serializedDestination = new Mock<ISerializedAccount>();
 
+                serializedDestination.Setup(x => x.Line).Returns("DESTINATION");
+                destination.Setup(x => x.Serialize()).Returns(serializedDestination.Object);
+
+                var record = new Record(originator.Object, destination.Object,
+                        DirectDebitAlbany.TransCode.Payment, null, "abvc");
+
+                var serialized = record.Serialize();
+
+                var composed = serialized.Destination + serialized.TransCode 
+                    + serialized.Originator + serialized.Amount + serialized.Reference;
+
+                Assert.Equal(composed, serialized.Line);
             }
         }
     }
