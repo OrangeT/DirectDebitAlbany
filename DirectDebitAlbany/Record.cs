@@ -51,8 +51,8 @@ namespace OrangeTentacle.DirectDebitAlbany
 
             record.Reference = Reference.FixedWidth(18);
 
-            record.Originator = Originator.Serialize().Line;
-            record.Destination = Destination.Serialize().Line;
+            record.Originator = Originator.Serialize().Line();
+            record.Destination = Destination.Serialize().Line();
 
             return record;
         }

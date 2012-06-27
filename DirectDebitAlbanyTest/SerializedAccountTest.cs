@@ -8,16 +8,17 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
             public class Line
             {
                 [Fact]
-                public void Composed()
+                public void Default()
                 {
                     var account = new BankAccount(BankAccountTest.NUMBER, 
                             BankAccountTest.SORTCODE, BankAccountTest.NAME);
 
                     var serialize = account.Serialize();
+                    var line = serialize.Line();
 
-                    Assert.Equal(serialize.SortCode, serialize.Line.Substring(0, 6));
-                    Assert.Equal(serialize.Number, serialize.Line.Substring(6, 8));
-                    Assert.Equal(serialize.Name, serialize.Line.Substring(14, 18));
+                    var composed = serialize.SortCode + serialize.Number + serialize.Name;
+
+                    Assert.Equal(composed, line);
                 }
             }
  

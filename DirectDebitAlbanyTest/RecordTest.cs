@@ -153,7 +153,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var originator = new Mock<IBankAccount>();
                     var serializedAccount = new Mock<ISerializedAccount>();
 
-                    serializedAccount.Setup(x => x.Line).Returns("TESTTEST");
+                    serializedAccount.Setup(x => x.Line()).Returns("TESTTEST");
                     originator.Setup(x => x.Serialize()).Returns(serializedAccount.Object);
 
                     var record = new Record(originator.Object, BankAccountTest.SampleDestination(), 
@@ -173,7 +173,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var destination = new Mock<IBankAccount>();
                     var serializedAccount = new Mock<ISerializedAccount>();
 
-                    serializedAccount.Setup(x => x.Line).Returns("TESTTEST");
+                    serializedAccount.Setup(x => x.Line()).Returns("TESTTEST");
                     destination.Setup(x => x.Serialize()).Returns(serializedAccount.Object);
 
                     var record = new Record(BankAccountTest.SampleOriginator(), 

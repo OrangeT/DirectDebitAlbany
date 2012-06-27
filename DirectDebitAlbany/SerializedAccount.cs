@@ -5,7 +5,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Number { get; }
         string SortCode { get; }
         string Name { get; }
-        string Line { get; }
+        string Line();
     }
 
     public class SerializedAccount : ISerializedAccount
@@ -17,9 +17,9 @@ namespace OrangeTentacle.DirectDebitAlbany
         public string SortCode { get; internal set; }
         public string Name { get; internal set; }
 
-        public virtual string Line 
+        public string Line()
         {
-            get { return SortCode + Number + Name; }
+            return SortCode + Number + Name; 
         }
     }
 }
