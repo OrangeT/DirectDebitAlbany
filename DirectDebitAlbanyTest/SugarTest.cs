@@ -5,7 +5,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 {
     public class SugarTest
     {
-        public class FixedWidth
+        public class FixedWidth_String
         {
             [Fact]
             public void Null()
@@ -54,6 +54,59 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                 Assert.Equal("ABC ", result);
             }
+        }
+
+        public class FixedWidth_Decimal
+        {
+            [Fact]
+            public void Null()
+            {
+                decimal? dec = null;
+
+                var result = dec.FixedWidth(4);
+
+                Assert.Equal("0000", result);
+            }
+
+            [Fact]
+            public void InPence()
+            {
+                decimal? dec = 123.45m;
+
+                var result = dec.FixedWidth(5);
+
+                Assert.Equal("12345", result);
+            }
+
+            [Fact]
+            public void InPounds()
+            {
+                decimal? dec = 123m;
+
+                var result = dec.FixedWidth(5);
+
+                Assert.Equal("12300", result);
+            }
+
+            [Fact]
+            public void Precision_Exception()
+            {
+                decimal? dec = 123.456m;
+
+                Assert.Throws<DirectDebitException>(
+                        () => dec.FixedWidth(5));
+            }
+
+            [Fact]
+            public void TooLarge_Exception()
+            {
+                decimal? dec = 1234.56m;
+
+                Assert.Throws<DirectDebitException>(
+                        () => dec.FixedWidth(5));
+            }
+
+
         }
     }
 }

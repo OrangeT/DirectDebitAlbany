@@ -252,20 +252,24 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 }
             }
 
-            public class Line
-            {
-                [Fact]
-                public void Composed()
-                {
-                    var account = new BankAccount(NUMBER, SORTCODE, NAME);
+       }
 
-                    var serialize = account.Serialize();
+        public static BankAccount SampleOriginator()
+        {
+            var number = "12345678";
+            var sortCode = "123456";
+            var name = "Account Name";
 
-                    Assert.Equal(serialize.SortCode, serialize.Line.Substring(0, 6));
-                    Assert.Equal(serialize.Number, serialize.Line.Substring(6, 8));
-                    Assert.Equal(serialize.Name, serialize.Line.Substring(14, 18));
-                }
-            }
+            return new BankAccount(number, sortCode, name);
+        }
+
+        public static BankAccount SampleDestination()
+        {
+            var number = "87654321";
+            var sortCode = "654321";
+            var name = "Account Name";
+
+            return new BankAccount(number, sortCode, name);
         }
     }
 }

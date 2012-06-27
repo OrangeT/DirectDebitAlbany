@@ -3,7 +3,17 @@ using System.Linq;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
-    public class BankAccount
+    public interface IBankAccount
+    {
+         string Number { get; }
+         string SortCode { get; }
+         string Name { get; }
+         Bank? Bank { get; }
+         bool Equals(object obj);
+         ISerializedAccount Serialize();
+    }
+
+    public class BankAccount : IBankAccount
     {
         public string Number { get; protected set; }
         public string SortCode { get; protected set; }
@@ -61,7 +71,7 @@ namespace OrangeTentacle.DirectDebitAlbany
                 && SortCode.Equals(bankAccount.SortCode);
         }
 
-        public SerializedAccount Serialize()
+        public ISerializedAccount Serialize()
         {
             var account = new SerializedAccount();
             if (Number.Length <= 8)

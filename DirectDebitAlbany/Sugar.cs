@@ -19,5 +19,23 @@ namespace OrangeTentacle.DirectDebitAlbany
              return val;
         }
 
+        public static string FixedWidth(this decimal? dec, int length)
+        {
+            var val = "0";
+
+            if (dec.HasValue)
+            {
+                var pence = dec.Value*100;
+                if (pence % 1 != 0)
+                    throw new DirectDebitException("Amount Not Expressed In Pence");
+
+                val = (dec.Value*100).ToString("0");
+            }
+
+            if (val.Length > length)
+                throw new DirectDebitException("Length exceeded by amount");
+
+            return val.PadLeft(length, '0');
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace OrangeTentacle.DirectDebitAlbany
 {
     public static class BankValidation
@@ -15,6 +17,18 @@ namespace OrangeTentacle.DirectDebitAlbany
             new [] {
                 Bank.Natwest,
                 Bank.Coop
+            };
+
+        public static Dictionary<TransCode, string> TransCode = 
+            new Dictionary<TransCode, string> {
+                { DirectDebitAlbany.TransCode.BankGiroCredit, "99" },
+                { DirectDebitAlbany.TransCode.FirstPayment, "01" },
+                { DirectDebitAlbany.TransCode.Payment, "17" },
+                { DirectDebitAlbany.TransCode.RePresentation, "18" },
+                { DirectDebitAlbany.TransCode.FinalPayment, "19" },
+                { DirectDebitAlbany.TransCode.NewInstruction, "0N" },
+                { DirectDebitAlbany.TransCode.CancelInstruction, "0C" },
+                { DirectDebitAlbany.TransCode.ConvertInstruction, "0S" }
             };
     }
 }
