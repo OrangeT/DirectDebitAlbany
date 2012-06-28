@@ -1,7 +1,7 @@
 # git ignore file
 obj
 bin
-packages
+packages/*/
 *TeamCity*
 _ReSharper*
 Hexcentric.sln.DotSettings.user
