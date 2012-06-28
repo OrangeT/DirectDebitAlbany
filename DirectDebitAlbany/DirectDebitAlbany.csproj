@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,7 +44,10 @@
     <Compile Include="Bank.cs" />
     <Compile Include="BankAccount.cs" />
     <Compile Include="BankValidation.cs" />
+    <Compile Include="DirectDebitConfiguration.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="FieldCollection.cs" />
+    <Compile Include="FieldConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Record.cs" />
     <Compile Include="SerializedAccount.cs" />
