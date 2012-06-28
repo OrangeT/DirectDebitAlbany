@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
@@ -10,6 +12,11 @@ namespace OrangeTentacle.DirectDebitAlbany
         { 
             get { return (FieldConfiguration) BaseGet(index); }
         }
+        
+        public void Add(FieldConfiguration field)
+        {
+            BaseAdd(field);
+        }
 
         protected override ConfigurationElement CreateNewElement()
         {
@@ -19,6 +26,11 @@ namespace OrangeTentacle.DirectDebitAlbany
         protected override object GetElementKey(ConfigurationElement element)
         {
             return ((FieldConfiguration)element).Field;
+        }
+
+        public string[] GetProperties()
+        {
+            return (from FieldConfiguration p in this select p.Field).ToArray();
         }
     }
 }

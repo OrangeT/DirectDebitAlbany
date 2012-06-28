@@ -11,6 +11,11 @@ namespace OrangeTentacle.DirectDebitAlbany
             {
                 return (string)this["field"];
             }
+
+            set
+            {
+                this["field"] = value;
+            }
         }
     }
 }

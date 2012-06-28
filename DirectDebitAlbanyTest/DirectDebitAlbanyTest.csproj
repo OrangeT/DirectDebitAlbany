@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BankAccountTest.cs" />
     <Compile Include="DirectDebitConfigurationTest.cs" />
+    <Compile Include="FieldCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordTest.cs" />
     <Compile Include="SerializedAccountTest.cs" />
@@ -60,6 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Sample\complete.config" />
+    <None Include="Sample\nobankaccount.config" />
+    <None Include="Sample\noconfiguration.config" />
+    <None Include="Sample\norecord.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectDebitAlbany\DirectDebitAlbany.csproj">

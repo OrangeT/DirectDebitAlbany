@@ -45,9 +45,16 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 Assert.Equal(composed, line);
             }
 
-            public void Ignores_Case()
+            [Fact]
+            public void Configuration()
             {
-                var properties = new [] { "TRANSCODE" };
+                var configuration = new DirectDebitConfiguration();
+                configuration.Record.Add(new FieldConfiguration { Field = "TransCode" });
+
+                var serialize = SampleRecord();
+                var line = serialize.Line(configuration);
+
+                Assert.Equal(serialize.TransCode, line);
             }
 
             public ISerializedRecord SampleRecord()

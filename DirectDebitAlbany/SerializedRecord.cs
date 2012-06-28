@@ -8,6 +8,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Originator { get; }
         string Destination { get; }
         string Line();
+        string Line(DirectDebitConfiguration config);
         string Line(string[] fields);
     }
 
@@ -28,6 +29,11 @@ namespace OrangeTentacle.DirectDebitAlbany
         public string Line()
         {
             return Line(DEFAULT_FIELDS);
+        }
+
+        public string Line(DirectDebitConfiguration config)
+        {
+            return Line(config.Record.GetProperties());
         }
 
         public string Line(string[] fields)

@@ -44,6 +44,21 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                 Assert.Equal(composed, line);
             }
+
+            [Fact]
+            public void Configuration()
+            {
+                var configuration = new DirectDebitConfiguration();
+                configuration.BankAccount.Add(new FieldConfiguration { Field = "Number" });
+
+                var account = new BankAccount(BankAccountTest.NUMBER,
+                        BankAccountTest.SORTCODE, BankAccountTest.NAME);
+
+                var serialize = account.Serialize();
+                var line = serialize.Line(configuration);
+
+                Assert.Equal(serialize.Number, line);
+            }
         }
     }
 }
