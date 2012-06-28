@@ -3,12 +3,10 @@
     TaskName="Xunit.Runner.MSBuild.xunit" />
 
 	<Target Name="Compile">
-		<MSBuild Projects="DirectDebitAlbany/DirectDebitAlbany.csproj" />
+		<MSBuild Projects="DirectDebitAlbany.sln" />
 	</Target>
 
 	<Target Name="Test" DependsOnTargets="Compile">
-		<MSBuild Projects="DirectDebitAlbanyTest/DirectDebitAlbanyTest.csproj" />
-
                 <xunit Assembly="DirectDebitAlbanyTest\bin\Debug\DirectDebitAlbanyTest.dll" />
 	</Target>
 
