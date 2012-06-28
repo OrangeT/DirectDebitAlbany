@@ -7,9 +7,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Number { get; }
         string SortCode { get; }
         string Name { get; }
-        string Line();
-        string Line(DirectDebitConfiguration config);
-        string Line(string[] fields);
+        string Line { get; }
     }
 
     public class SerializedAccount : ISerializedAccount
@@ -17,25 +15,11 @@ namespace OrangeTentacle.DirectDebitAlbany
         internal SerializedAccount()
         {}
 
-        public readonly string[] DEFAULT_FIELDS = new [] { "SortCode", "Number", "Name" };
+        public readonly static string[] DEFAULT_FIELDS = new [] { "SortCode", "Number", "Name" };
 
         public string Number { get; internal set; }
         public string SortCode { get; internal set; }
         public string Name { get; internal set; }
-
-        public string Line()
-        {
-            return Line(DEFAULT_FIELDS);
-        }
-
-        public string Line(DirectDebitConfiguration config)
-        {
-            return Line(config.BankAccount.GetProperties());
-        }
-
-        public string Line(string[] fields)
-        {
-            return Sugar.ComposeLine<SerializedAccount>(fields, this);
-        }
-    }
+        public string Line { get; internal set; }
+   }
 }

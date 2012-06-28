@@ -153,8 +153,9 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var originator = new Mock<IBankAccount>();
                     var serializedAccount = new Mock<ISerializedAccount>();
 
-                    serializedAccount.Setup(x => x.Line()).Returns("TESTTEST");
-                    originator.Setup(x => x.Serialize()).Returns(serializedAccount.Object);
+                    serializedAccount.Setup(x => x.Line).Returns("TESTTEST");
+                    originator.Setup(x => x.Serialize(It.IsAny<string[]>()))
+                        .Returns(serializedAccount.Object);
 
                     var record = new Record(originator.Object, BankAccountTest.SampleDestination(), 
                             DirectDebitAlbany.TransCode.Payment, null, "abvc");
@@ -173,8 +174,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var destination = new Mock<IBankAccount>();
                     var serializedAccount = new Mock<ISerializedAccount>();
 
-                    serializedAccount.Setup(x => x.Line()).Returns("TESTTEST");
-                    destination.Setup(x => x.Serialize()).Returns(serializedAccount.Object);
+                    serializedAccount.Setup(x => x.Line).Returns("TESTTEST");
+                    destination.Setup(x => x.Serialize(It.IsAny<string[]>())).Returns(serializedAccount.Object);
 
                     var record = new Record(BankAccountTest.SampleOriginator(), 
                             destination.Object, DirectDebitAlbany.TransCode.Payment, null, "abvc");
@@ -182,6 +183,77 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var serialized = record.Serialize();
 
                     Assert.Equal("TESTTEST", serialized.Destination);
+                }
+            }
+
+            public class Line
+            {
+                [Fact]
+                public void Default()
+                {
+                    var record = SampleRecord();
+                    var serialized = record.Serialize();
+
+                    var composed = serialized.Destination + serialized.TransCode 
+                        + serialized.Originator + serialized.Amount + serialized.Reference;
+
+                    Assert.Equal(composed, serialized.Line);
+                }
+
+                [Theory]
+                [InlineData("TransCode", "Amount", "Reference", "Originator", "Destination")]
+                [InlineData("TransCode", "Originator", "Destination", "Amount", "Reference")]
+                [InlineData("Originator", "Destination", "Reference", "Amount", "TransCode")]
+                public void Takes_Properties(string prop1, string prop2, string prop3, 
+                        string prop4, string prop5)
+                {
+                    var properties = new string[] { prop1, prop2, prop3, prop4, prop5 };
+
+                    var record = SampleRecord();
+                    var serialized = record.Serialize(SerializedAccount.DEFAULT_FIELDS, properties);
+
+                    var composed = "";
+                    foreach(var prop in properties)
+                    {
+                        var p = typeof(ISerializedRecord).GetProperty(prop);
+                        composed += p.GetValue(serialized, null).ToString();
+                    }
+
+                    Assert.Equal(composed, serialized.Line);
+                }
+
+                [Fact]
+                public void Configuration()
+                {
+                    var configuration = new DirectDebitConfiguration();
+                    configuration.Record.Add(new FieldConfiguration { Field = "TransCode" });
+
+                    var record = SampleRecord();
+                    var serialized = record.Serialize(configuration);
+
+                    Assert.Equal(serialized.TransCode, serialized.Line);
+                }
+
+                public Record SampleRecord()
+                {
+                    var originator = new Mock<IBankAccount>();
+                    var serializedOriginator = new Mock<ISerializedAccount>();
+
+                    serializedOriginator.Setup(x => x.Line).Returns("ORIGINATOR");
+                    originator.Setup(x => x.Serialize(It.IsAny<string[]>()))
+                        .Returns(serializedOriginator.Object);
+
+                    var destination = new Mock<IBankAccount>();
+                    var serializedDestination = new Mock<ISerializedAccount>();
+
+                    serializedDestination.Setup(x => x.Line).Returns("DESTINATION");
+                    destination.Setup(x => x.Serialize(It.IsAny<string[]>()))
+                        .Returns(serializedDestination.Object);
+
+                    var record = new Record(originator.Object, destination.Object,
+                            DirectDebitAlbany.TransCode.Payment, null, "abvc");
+
+                    return record;
                 }
             }
         }

@@ -11,6 +11,8 @@ namespace OrangeTentacle.DirectDebitAlbany
          Bank? Bank { get; }
          bool Equals(object obj);
          ISerializedAccount Serialize();
+         ISerializedAccount Serialize(DirectDebitConfiguration config);
+         ISerializedAccount Serialize(string[] accountFields);
     }
 
     public class BankAccount : IBankAccount
@@ -73,6 +75,17 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         public ISerializedAccount Serialize()
         {
+            return Serialize(SerializedAccount.DEFAULT_FIELDS);
+        }
+
+        public ISerializedAccount Serialize(DirectDebitConfiguration config)
+        {
+            var accountFields = config.BankAccount.GetProperties();
+            return Serialize(accountFields);
+        }
+
+        public ISerializedAccount Serialize(string[] accountFields)
+        {
             var account = new SerializedAccount();
             if (Number.Length <= 8)
                 account.Number = Number.PadLeft(8, '0');
@@ -84,9 +97,10 @@ namespace OrangeTentacle.DirectDebitAlbany
                 account.Number = Number.Substring(0, 8);
 
             account.SortCode = SortCode;
-
             account.Name = Name.FixedWidth(18);
 
+            account.Line = Sugar.ComposeLine<SerializedAccount>(accountFields, account);
+            
             return account;
         }
     }

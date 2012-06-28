@@ -55,8 +55,6 @@
     <Compile Include="FieldCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecordTest.cs" />
-    <Compile Include="SerializedAccountTest.cs" />
-    <Compile Include="SerializedRecordTest.cs" />
     <Compile Include="SugarTest.cs" />
   </ItemGroup>
   <ItemGroup>

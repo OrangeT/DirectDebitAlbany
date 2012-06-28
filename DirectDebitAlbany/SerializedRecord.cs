@@ -7,9 +7,7 @@ namespace OrangeTentacle.DirectDebitAlbany
         string Reference { get; }
         string Originator { get; }
         string Destination { get; }
-        string Line();
-        string Line(DirectDebitConfiguration config);
-        string Line(string[] fields);
+        string Line { get; }
     }
 
     public class SerializedRecord : ISerializedRecord
@@ -25,20 +23,6 @@ namespace OrangeTentacle.DirectDebitAlbany
         public string Reference { get; internal set; }
         public string Originator { get; internal set; }
         public string Destination { get; internal set; }
-
-        public string Line()
-        {
-            return Line(DEFAULT_FIELDS);
-        }
-
-        public string Line(DirectDebitConfiguration config)
-        {
-            return Line(config.Record.GetProperties());
-        }
-
-        public string Line(string[] fields)
-        {
-            return Sugar.ComposeLine<SerializedRecord>(fields, this);
-        }
+        public string Line { get; internal set; }
     }
 }

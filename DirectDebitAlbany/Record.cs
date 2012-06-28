@@ -12,6 +12,8 @@ namespace OrangeTentacle.DirectDebitAlbany
         IBankAccount Destination { get; }
 
         ISerializedRecord Serialize();
+        ISerializedRecord Serialize(DirectDebitConfiguration config);
+        ISerializedRecord Serialize(string[] accountFields, string[] recordFields);
    }
 
    public class Record
@@ -44,6 +46,22 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         public ISerializedRecord Serialize()
         {
+            var accountFields = SerializedAccount.DEFAULT_FIELDS;
+            var recordFields = SerializedRecord.DEFAULT_FIELDS;
+
+            return Serialize(accountFields, recordFields);
+        }
+
+        public ISerializedRecord Serialize(DirectDebitConfiguration config)
+        {
+            var accountFields = config.BankAccount.GetProperties();
+            var recordFields = config.Record.GetProperties();
+
+            return Serialize(accountFields, recordFields);
+        }
+
+        public ISerializedRecord Serialize(string[] accountFields, string[] recordFields)
+        {
             var record = new SerializedRecord();
 
             record.TransCode = BankValidation.TransCode[this.TransCode];
@@ -51,8 +69,10 @@ namespace OrangeTentacle.DirectDebitAlbany
 
             record.Reference = Reference.FixedWidth(18);
 
-            record.Originator = Originator.Serialize().Line();
-            record.Destination = Destination.Serialize().Line();
+            record.Originator = Originator.Serialize(accountFields).Line; 
+            record.Destination = Destination.Serialize(accountFields).Line; 
+
+            record.Line = Sugar.ComposeLine<SerializedRecord>(recordFields, record);
 
             return record;
         }

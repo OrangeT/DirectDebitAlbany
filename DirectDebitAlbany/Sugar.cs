@@ -49,6 +49,9 @@ namespace OrangeTentacle.DirectDebitAlbany
                 if (field.ToUpper() == "LINE")
                     throw new DirectDebitException("Parameters may not contain Line");
 
+                //if (field.ToUpper() == "DESTINATION" || field.ToUpper() == "ORIGINATOR")
+                    //continue;
+
                 var p = typeof(T).GetProperty(field, 
                         BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (p == null)
