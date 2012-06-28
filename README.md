@@ -81,6 +81,7 @@ The default BankAccount constructor takes a six to eight digit account number an
 
 Given a complete record, the output can then be serialized to a fixed width format.  The Line method of the SerializedRecord may be invoked in a number of ways to return the serialized line:
 
+```csharp
 var serialize = record.Serialize();
 
 var line = serialize.Line(); // Returns fields in default order.
@@ -90,6 +91,7 @@ var line = serialize.Line(fields); // Returns provided properties.
 
 var config = DirectDebitConfiguration.GetSection();
 var line = serialize.Line(config); // Returns properies in configuration file.
+```
 
 Line returns a string suitable for writing to a text file.
 
