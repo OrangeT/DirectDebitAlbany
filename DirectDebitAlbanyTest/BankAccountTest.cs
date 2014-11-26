@@ -68,6 +68,17 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 Assert.Throws<DirectDebitException>(
                         () => new BankAccount(NUMBER, SORTCODE, name));
             }
+
+            [Theory]
+            [InlineData("Mr Bob & Benetta")]
+            [InlineData("This. Is. Valid.")]
+            [InlineData("Chrissy/Janet")]
+            [InlineData("Bob - and - Janet")]
+            public void Valid_Special_Chars(string name)
+            {
+                var account = new BankAccount(NUMBER, SORTCODE, name);
+                Assert.Equal(name, account.Name);
+            }
         }
 
         public class Ctor_With_Bank

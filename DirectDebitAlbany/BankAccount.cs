@@ -36,7 +36,7 @@ namespace OrangeTentacle.DirectDebitAlbany
             if (! Regex.IsMatch(sortCode, sortcodeVal))
                 throw new DirectDebitException("Sort Code Must Be 6 digits");
 
-            var nameVal = @"^[0-9A-Za-z\s]+$";
+            var nameVal = @"^[0-9A-Za-z\s\-\&\/\.]+$";
             if (! Regex.IsMatch(name, nameVal))
                 throw new DirectDebitException("Name Must Be Alpha Numeric");
 
