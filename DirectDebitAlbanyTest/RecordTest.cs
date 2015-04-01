@@ -189,7 +189,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                     var serialized = record.Serialize(SerializeMethod.FixedWidth);
 
-                    Assert.Equal("TESTTEST", serialized.Originator);
+                    Assert.Equal("TESTTEST", serialized.Originator.Line);
                 }
             }
 
@@ -211,7 +211,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                     var serialized = record.Serialize(SerializeMethod.FixedWidth);
 
-                    Assert.Equal("TESTTEST", serialized.Destination);
+                    Assert.Equal("TESTTEST", serialized.Destination.Line);
                 }
             }
 
@@ -223,8 +223,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var record = SampleRecord();
                     var serialized = record.Serialize(SerializeMethod.FixedWidth);
 
-                    var composed = serialized.Destination + serialized.TransCode 
-                        + serialized.Originator + serialized.Amount + serialized.Reference;
+                    var composed = serialized.Destination.Line + serialized.TransCode 
+                        + serialized.Originator.Line + serialized.Amount + serialized.Reference;
 
                     Assert.Equal(composed, serialized.Line);
                 }

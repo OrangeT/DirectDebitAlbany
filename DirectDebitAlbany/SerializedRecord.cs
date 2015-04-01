@@ -5,8 +5,8 @@ namespace OrangeTentacle.DirectDebitAlbany
         string TransCode { get; }
         string Amount { get; }
         string Reference { get; }
-        string Originator { get; }
-        string Destination { get; }
+        ISerializedAccount Originator { get; }
+        ISerializedAccount Destination { get; }
         string Line { get; }
     }
 
@@ -15,14 +15,14 @@ namespace OrangeTentacle.DirectDebitAlbany
         internal SerializedRecord()
         {}
 
-        public readonly static string[] DEFAULT_FIELDS = new [] { "Destination", "TransCode", 
-            "Originator", "Amount", "Reference" };
+        public readonly static string[] DEFAULT_FIELDS = new [] { "Destination.Line", "TransCode", 
+            "Originator.Line", "Amount", "Reference" };
 
         public string TransCode { get; internal set; }
         public string Amount { get; internal set; }
         public string Reference { get; internal set; }
-        public string Originator { get; internal set; }
-        public string Destination { get; internal set; }
+        public ISerializedAccount Originator { get; internal set; }
+        public ISerializedAccount Destination { get; internal set; }
         public string Line { get; internal set; }
     }
 }

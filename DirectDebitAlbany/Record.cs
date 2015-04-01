@@ -70,8 +70,8 @@ namespace OrangeTentacle.DirectDebitAlbany
 
             record.Reference = Reference.Format(method, 18);
 
-            record.Originator = Originator.Serialize(method, accountFields).Line; 
-            record.Destination = Destination.Serialize(method, accountFields).Line; 
+            record.Originator = Originator.Serialize(method, accountFields); 
+            record.Destination = Destination.Serialize(method, accountFields); 
 
             record.Line = Sugar.ComposeLine<SerializedRecord>(method, recordFields, record);
 

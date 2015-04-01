@@ -32,9 +32,9 @@ To use a configuration section, add the following to your app.config/web.config:
             </BankAccount>
 
             <Record>
-                <add field="Destination" />
+                <add field="Destination.Line" />
                 <add field="TransCode" />
-                <add field="Originator" />
+                <add field="Originator.Line" />
                 <add field="Amount" />
                 <add field="Reference" />
             </Record>
