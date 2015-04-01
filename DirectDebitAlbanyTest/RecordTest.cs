@@ -112,6 +112,18 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                     Assert.Equal("00000123400", serialized.Amount);
                 }
+
+                [Fact]
+                public void CSV_Fixed_Dp()
+                {
+                    var record = new Record(BankAccountTest.SampleOriginator(), 
+                            BankAccountTest.SampleDestination(), DirectDebitAlbany.TransCode.Payment,
+                            1234m, "Ref");
+
+                    var serialized = record.Serialize(SerializeMethod.CSV);
+
+                    Assert.Equal("1234.00", serialized.Amount);
+                }
             }
 
             public class Reference
@@ -142,6 +154,20 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var serialized = record.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.Equal("ABCDEFGHIJKLMNOPQR", serialized.Reference);
+                }
+
+                [Fact]
+                public void No_Pad_Csv()
+                {
+                    var reference = "abc";
+                    
+                    var record = new Record(BankAccountTest.SampleOriginator(), 
+                            BankAccountTest.SampleDestination(), DirectDebitAlbany.TransCode.Payment,
+                            null, reference);
+
+                    var serialized = record.Serialize(SerializeMethod.CSV);
+
+                    Assert.Equal("ABC", serialized.Reference);
                 }
             }
 

@@ -7,6 +7,16 @@ namespace OrangeTentacle.DirectDebitAlbany
 {
     public static class Sugar
     {
+        public static string Format(this String str, SerializeMethod method, int length)
+        {
+            if (method == SerializeMethod.FixedWidth)
+                return str.FixedWidth(length);
+            if (method == SerializeMethod.CSV)
+                return str.Truncate(length);
+
+            throw new ArgumentOutOfRangeException("method", method, "Unknown SerializeMethod");
+        }
+
         public static string Truncate(this String str, int length)
         {
             if (string.IsNullOrEmpty(str))
@@ -33,6 +43,18 @@ namespace OrangeTentacle.DirectDebitAlbany
                  val = val.PadRight(length);
 
              return val;
+        }
+
+        public static string Format(this decimal? dec, SerializeMethod method, 
+                int length, int precision)
+        {
+            if (method == SerializeMethod.FixedWidth)
+                return dec.FixedWidth(length);
+            if (method == SerializeMethod.CSV)
+                return dec.ToFixedPrecision(precision);
+
+            throw new ArgumentOutOfRangeException("method", method, "Unknown SerializeMethod");
+            
         }
 
         public static string FixedWidth(this decimal? dec, int length)

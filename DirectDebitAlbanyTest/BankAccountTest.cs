@@ -261,6 +261,16 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                     Assert.Equal("BOB               ", serialize.Name);
                 }
+
+                [Fact]
+                public void Short_Name_NoPad_CSV()
+                {
+                    var shortname = "Bob";
+                    var account = new BankAccount(NUMBER, SORTCODE, shortname);
+                    var serialize = account.Serialize(SerializeMethod.CSV);
+
+                    Assert.Equal("BOB", serialize.Name);
+                }
             }
 
             public class Line

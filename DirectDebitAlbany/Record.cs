@@ -66,9 +66,9 @@ namespace OrangeTentacle.DirectDebitAlbany
             var record = new SerializedRecord();
 
             record.TransCode = BankValidation.TransCode[this.TransCode];
-            record.Amount = Amount.FixedWidth(11);
+            record.Amount = Amount.Format(method, 11, 2);
 
-            record.Reference = Reference.FixedWidth(18);
+            record.Reference = Reference.Format(method, 18);
 
             record.Originator = Originator.Serialize(method, accountFields).Line; 
             record.Destination = Destination.Serialize(method, accountFields).Line; 
