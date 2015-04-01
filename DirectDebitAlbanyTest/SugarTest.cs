@@ -247,7 +247,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 [Fact]
                 public void Rejects_Null_Properties()
                 {
-                    var properties = new [] { "Property3" };
+                    var properties = new [] { "Property30" };
                     var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
                     Assert.Throws<DirectDebitException>(
@@ -268,6 +268,19 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                             properties, target);
 
                     Assert.Equal("Property1,32", line);
+                }
+
+                [Fact]
+                public void Inner_Properties()
+                {
+                    var properties = new [] { "Property3.Property1" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32,
+                        Property3 = new InnerClass { Property1 = "Property3" } };
+
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.CSV, 
+                            properties, target);
+
+                    Assert.Equal("Property3", line);
                 }
 
                 [Fact]
@@ -292,7 +305,6 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                             properties, target);
 
                     Assert.Equal("Property1,,32", line);
-                    
                 }
             }
 
@@ -302,6 +314,13 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 public string Line { get; set; }
                 public string Property1 { get; set; }
                 public int Property2 { get; set; }
+
+                public InnerClass Property3 { get; set; }
+            }
+
+            public class InnerClass
+            {
+                public string Property1 { get; set; }
             }
         }
     }

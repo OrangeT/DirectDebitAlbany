@@ -106,15 +106,42 @@ namespace OrangeTentacle.DirectDebitAlbany
                     //continue;
                     //
 
+                var localTarget = target;
+
                 string val = "";
                 if (field.ToUpper() != "BLANK")
                 {
-                    var p = typeof(T).GetProperty(field, 
+                    string outer = "";
+                    string inner = "";
+
+                    PropertyInfo p;
+                    if (field.Contains(".")) {
+                        var properties = field.Split('.');
+
+                        outer = properties[0];
+                        inner = properties[1];
+
+                        p = localTarget.GetType().GetProperty(outer,
+                                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+                        if (p == null)
+                            throw new DirectDebitException(
+                                    string.Format("Object Not Found :{0}", field));
+
+                        localTarget = p.GetValue(localTarget, null);
+                    }
+                    else
+                    {
+                        inner = field;
+                    }
+
+                    p = localTarget.GetType().GetProperty(inner, 
                             BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                     if (p == null)
-                        throw new DirectDebitException("Property Not Found");
+                        throw new DirectDebitException(
+                                string.Format("Property Not Found {0}", inner));
 
-                    val = p.GetValue(target, null).ToString();
+                    val = p.GetValue(localTarget, null).ToString();
                 }
 
                 if (method == SerializeMethod.CSV) {
