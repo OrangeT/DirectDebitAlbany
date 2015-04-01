@@ -92,8 +92,11 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         public static string ComposeLine<T>(SerializeMethod method, string[] fields, object target)
         {
+            if (fields.Length == 0)
+                return string.Empty;
+
             var composed = new StringBuilder();
-            
+
             var lastIndex = fields.Length - 1;
             var lastField = fields[lastIndex];
 
