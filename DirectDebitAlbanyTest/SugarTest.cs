@@ -195,6 +195,19 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
                     Assert.Equal("\"Proper,ty1\",32", line);
                 }
+
+                [Fact]
+                public void Generate_Blank_Entries()
+                {
+                    var properties = new [] { "Property1", "Blank", "Property2"};
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.CSV, 
+                            properties, target);
+
+                    Assert.Equal("Property1,,32", line);
+                    
+                }
             }
 
 

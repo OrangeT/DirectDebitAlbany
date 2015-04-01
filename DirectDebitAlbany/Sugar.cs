@@ -54,13 +54,18 @@ namespace OrangeTentacle.DirectDebitAlbany
 
                 //if (field.ToUpper() == "DESTINATION" || field.ToUpper() == "ORIGINATOR")
                     //continue;
+                    //
 
-                var p = typeof(T).GetProperty(field, 
-                        BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (p == null)
-                    throw new DirectDebitException("Property Not Found");
+                string val = "";
+                if (field.ToUpper() != "BLANK")
+                {
+                    var p = typeof(T).GetProperty(field, 
+                            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                    if (p == null)
+                        throw new DirectDebitException("Property Not Found");
 
-                var val = p.GetValue(target, null).ToString();
+                    val = p.GetValue(target, null).ToString();
+                }
 
                 if (method == SerializeMethod.CSV) {
                     if (val.Contains(","))
