@@ -6,6 +6,19 @@ namespace OrangeTentacle.DirectDebitAlbany
 {
     public static class Sugar
     {
+        public static string Truncate(this String str, int length)
+        {
+            if (string.IsNullOrEmpty(str))
+                return string.Empty;
+
+            var val = str.ToUpper();
+
+            if (val.Length > length)
+                val = val.Substring(0, length);
+
+            return val;
+        }
+
         public static string FixedWidth(this String str, int length)
         {
              if (string.IsNullOrEmpty(str))

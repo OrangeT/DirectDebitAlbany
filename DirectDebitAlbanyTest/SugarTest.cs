@@ -5,6 +5,49 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 {
     public class SugarTest
     {
+        public class Truncate_string
+        {
+            [Fact]
+            public void Null()
+            {
+                string str = null;
+
+                var result = str.Truncate(4);
+
+                Assert.Equal("", result);
+            }
+
+            [Fact]
+            public void EmptyString()
+            {
+                string str = null;
+
+                var result = str.Truncate(4);
+
+                Assert.Equal("", result);
+            }
+
+            [Fact]
+            public void Uppercase()
+            {
+                string str = "bob";
+
+                var result = str.Truncate(4);
+
+                Assert.Equal("BOB", result);
+            }
+
+            [Fact]
+            public void Truncate()
+            {
+                var str = "ABCDE";
+
+                var result = str.Truncate(4);
+
+                Assert.Equal("ABCD", result);
+            }
+        }
+
         public class FixedWidth_String
         {
             [Fact]
