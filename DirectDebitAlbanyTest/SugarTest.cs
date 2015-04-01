@@ -109,63 +109,94 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
 
         public class ComposeLine
         {
-            [Fact]
-            public void Takes_Properties()
+            public class FixedWidth
             {
-                var properties = new [] { "Property1", "Property2" };
-                var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+                [Fact]
+                public void Takes_Properties()
+                {
+                    var properties = new [] { "Property1", "Property2" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
-                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
-                        properties, target);
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
+                            properties, target);
 
-                Assert.Equal("Property132", line);
+                    Assert.Equal("Property132", line);
+                }
+
+                [Fact]
+                public void Ignores_Case()
+                {
+                    var properties = new [] { "PROPERTY1" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
+                            properties, target);
+
+                    Assert.Equal("Property1", line);
+                }
+
+                [Fact]
+                public void Properties_Are_Ordered()
+                {
+                    var properties = new [] { "Property2", "Property1" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                            properties, target);
+
+                    Assert.Equal("32Property1", line);
+                }
+
+                [Fact]
+                public void Rejects_Line()
+                {
+                    var properties = new [] { "Line" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+
+                    Assert.Throws<DirectDebitException>(
+                            () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                                                                 properties, target));
+                }
+
+                [Fact]
+                public void Rejects_Null_Properties()
+                {
+                    var properties = new [] { "Property3" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+
+                    Assert.Throws<DirectDebitException>(
+                            () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                                                                 properties, target));
+                }
             }
 
-            [Fact]
-            public void Ignores_Case()
+            public class CSV
             {
-                var properties = new [] { "PROPERTY1" };
-                var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
+                [Fact]
+                public void Takes_Properties()
+                {
+                    var properties = new [] { "Property1", "Property2" };
+                    var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
-                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
-                        properties, target);
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.CSV, 
+                            properties, target);
 
-                Assert.Equal("Property1", line);
+                    Assert.Equal("Property1,32", line);
+                }
+
+                [Fact]
+                public void Escapes_Commas()
+                {
+                    var properties = new [] { "Property1", "Property2" };
+                    var target = new SimpleClass { Property1 = "Proper,ty1", Property2 = 32 };
+
+                    var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.CSV, 
+                            properties, target);
+
+                    Assert.Equal("\"Proper,ty1\",32", line);
+                }
             }
 
-            [Fact]
-            public void Properties_Are_Ordered()
-            {
-                var properties = new [] { "Property2", "Property1" };
-                var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
-
-                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
-                        properties, target);
-
-                Assert.Equal("32Property1", line);
-            }
-
-            [Fact]
-            public void Rejects_Line()
-            {
-                var properties = new [] { "Line" };
-                var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
-
-                Assert.Throws<DirectDebitException>(
-                        () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
-                                                             properties, target));
-            }
-
-            [Fact]
-            public void Rejects_Null_Properties()
-            {
-                var properties = new [] { "Property3" };
-                var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
-
-                Assert.Throws<DirectDebitException>(
-                        () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
-                                                             properties, target));
-            }
 
             public class SimpleClass
             {

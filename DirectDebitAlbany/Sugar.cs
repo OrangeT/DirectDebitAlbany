@@ -44,6 +44,9 @@ namespace OrangeTentacle.DirectDebitAlbany
         {
             var composed = new StringBuilder();
             
+            var lastIndex = fields.Length - 1;
+            var lastField = fields[lastIndex];
+
             foreach(var field in fields)
             {
                 if (field.ToUpper() == "LINE")
@@ -57,7 +60,20 @@ namespace OrangeTentacle.DirectDebitAlbany
                 if (p == null)
                     throw new DirectDebitException("Property Not Found");
 
-                composed.Append(p.GetValue(target, null).ToString());
+                var val = p.GetValue(target, null).ToString();
+
+                if (method == SerializeMethod.CSV) {
+                    if (val.Contains(","))
+                    {
+                        val = string.Format("\"{0}\"", val);
+                    }
+
+                    if (field != lastField) {
+                        val = val + ",";
+                    }
+                }
+
+                composed.Append(val);
             }
 
             return composed.ToString();
