@@ -25,7 +25,7 @@ namespace OrangeTentacle.DirectDebitAlbany
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((FieldConfiguration)element).Field;
+            return ((FieldConfiguration)element).Id;
         }
 
         public string[] GetProperties()

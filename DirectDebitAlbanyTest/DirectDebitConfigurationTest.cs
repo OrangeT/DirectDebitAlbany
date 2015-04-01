@@ -12,6 +12,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
         public const string NO_BANKACCOUNT = "../../Sample/nobankaccount.config";
         public const string NO_RECORD = "../../Sample/norecord.config";
         public const string NO_CONFIG = "../../Sample/noconfiguration.config";
+        public const string REAL = "../../Sample/real.config";
 
         public class FilesExist
         {
@@ -96,7 +97,27 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 return manager.GetSection(DirectDebitConfiguration.SECTION_NAME) 
                     as DirectDebitConfiguration;
             }
-
         } 
+
+        public class Record
+        {
+            [Fact]
+            public void Fields_In_Order()
+            {
+                var section = FromConfigFile.GetConfiguration(REAL);
+
+                Assert.Equal("TransCode", section.Record[0].Field);
+                Assert.Equal("Destination.SortCode", section.Record[1].Field);
+                Assert.Equal("Destination.Number", section.Record[2].Field);
+                Assert.Equal("Amount", section.Record[3].Field);
+                Assert.Equal("Blank", section.Record[4].Field);
+                Assert.Equal("Blank", section.Record[5].Field);
+                Assert.Equal("Blank", section.Record[6].Field);
+                Assert.Equal("Blank", section.Record[7].Field);
+                Assert.Equal("Blank", section.Record[8].Field);
+                Assert.Equal("Destination.Name", section.Record[9].Field);
+                Assert.Equal("Reference", section.Record[10].Field);
+            }
+        }
     }
 }
