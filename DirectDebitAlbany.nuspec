@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>OrangeTentacle.DirectDebitAlbany</id>
+    <version>$version$</version>
+    <title>Albany Direct Debit Library</title>
+    <authors>Orange Tentacle, Kian Ryan</authors>
+    <owners>Kian Ryan</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/OrangeT/DirectDebitAlbany</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library allows a developer to generate output compatable with Albany Direct Debit products (initally EPay).</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright &#x00A9; Orange Tentacle.</copyright>
+    <tags>fixedwidth records finance bacs albany</tags>
+  </metadata>
+  <files>
+	<file src="DirectDebitAlbany\bin\$configuration$\DirectDebitAlbany.dll" target="lib\net35\" />
+  </files>
+</package>
