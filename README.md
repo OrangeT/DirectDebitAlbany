@@ -44,6 +44,21 @@ To use a configuration section, add the following to your app.config/web.config:
 
 BankAccount and Record are both optional.  See DirectDebitAlbanyTest/Sample/.config for configuration examples.
 
+### New Feature
+Individual fields from bank accounts can now be composed as part of a record.
+
+```xml
+
+            <Record>
+                <add field="Destination.SortCode" />
+                <add field="TransCode" />
+                <add field="Originator" />
+                <add field="Amount" />
+                <add field="Reference" />
+            </Record>
+
+```
+
 Usage
 -----
 
@@ -82,14 +97,16 @@ The default BankAccount constructor takes a six to eight digit account number an
 Given a complete record, the output can then be serialized to a fixed width format.  The Serialize method may be invoked with different parameters to return the serialized result:
 
 ```csharp
-var serialized = record.Serialize(); // Returns fields in default order.
+var serialized = record.Serialize(SerializeMethod.Fixed); // Returns fields in default order.
 
 var fields = new [] { "Originator", "TransCode" };
-var serialized = record.Serialize(fields); // Returns provided properties.
+var serialized = record.Serialize(SerializeMethod.Fixed, fields); // Returns provided properties.
 
 var config = DirectDebitConfiguration.GetSection();
-var serialized = record.Serialize(config); // Returns properies in configuration file.
+var serialized = record.Serialize(SerializeMethod.Fixed, config); // Returns properies in configuration file.
 ```
+
+__For CSV output use SerializeMethod.CSV.__
 
 Line returns a string suitable for writing to a text file.
 
