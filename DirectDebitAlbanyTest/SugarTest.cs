@@ -150,6 +150,49 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
             }
         }
 
+        public class ToFixedPrecision
+        {
+            [Fact]
+            public void Null()
+            {
+                decimal? dec = null;
+
+                var result = dec.ToFixedPrecision(2);
+
+                Assert.Equal("0.00", result);
+            }
+
+            [Fact]
+            public void Zero_Places()
+            {
+                decimal? dec = 123.54m;
+
+                var result = dec.ToFixedPrecision(0);
+
+                Assert.Equal("123", result);
+            }
+
+            [Fact]
+            public void Two_Places()
+            {
+                decimal? dec = 123.545m;
+
+                var result = dec.ToFixedPrecision(2);
+
+                Assert.Equal("123.54", result);
+            }
+
+            [Fact]
+            public void Longer_Precision()
+            {
+                decimal? dec = 123.54m;
+
+                var result = dec.ToFixedPrecision(5);
+
+                Assert.Equal("123.54000", result);
+            }
+        }
+
         public class ComposeLine
         {
             public class FixedWidth

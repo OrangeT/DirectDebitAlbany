@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace OrangeTentacle.DirectDebitAlbany
 {
@@ -51,6 +52,20 @@ namespace OrangeTentacle.DirectDebitAlbany
                 throw new DirectDebitException("Length exceeded by amount");
 
             return val.PadLeft(length, '0');
+        }
+
+        public static string ToFixedPrecision(this decimal? dec, int places)
+        {
+            dec = dec ?? 0;
+
+            var format = places > 0
+                ? "0." + string.Join("", Enumerable.Repeat("0", places))
+                : "0";
+
+            var factor = (int)Math.Pow(10, places);
+            dec = Math.Floor(dec.Value * factor) / factor;
+
+            return dec.Value.ToString(format);
         }
 
         public static string ComposeLine<T>(SerializeMethod method, string[] fields, object target)
