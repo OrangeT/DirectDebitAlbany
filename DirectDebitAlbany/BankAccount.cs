@@ -10,9 +10,9 @@ namespace OrangeTentacle.DirectDebitAlbany
          string Name { get; }
          Bank? Bank { get; }
          bool Equals(object obj);
-         ISerializedAccount Serialize();
-         ISerializedAccount Serialize(DirectDebitConfiguration config);
-         ISerializedAccount Serialize(string[] accountFields);
+         ISerializedAccount Serialize(SerializeMethod method);
+         ISerializedAccount Serialize(SerializeMethod method, DirectDebitConfiguration config);
+         ISerializedAccount Serialize(SerializeMethod method, string[] accountFields);
     }
 
     public class BankAccount : IBankAccount
@@ -73,18 +73,25 @@ namespace OrangeTentacle.DirectDebitAlbany
                 && SortCode.Equals(bankAccount.SortCode);
         }
 
-        public ISerializedAccount Serialize()
+        public override int GetHashCode()
         {
-            return Serialize(SerializedAccount.DEFAULT_FIELDS);
+            return Number.GetHashCode() ^ SortCode.GetHashCode();
         }
 
-        public ISerializedAccount Serialize(DirectDebitConfiguration config)
+        public ISerializedAccount Serialize(SerializeMethod method)
+        {
+            return Serialize(method, SerializedAccount.DEFAULT_FIELDS);
+        }
+
+        public ISerializedAccount Serialize(SerializeMethod method, 
+                DirectDebitConfiguration config)
         {
             var accountFields = config.BankAccount.GetProperties();
-            return Serialize(accountFields);
+            return Serialize(method, accountFields);
         }
 
-        public ISerializedAccount Serialize(string[] accountFields)
+        public ISerializedAccount Serialize(SerializeMethod method, 
+                string[] accountFields)
         {
             var account = new SerializedAccount();
             if (Number.Length <= 8)
@@ -99,7 +106,8 @@ namespace OrangeTentacle.DirectDebitAlbany
             account.SortCode = SortCode;
             account.Name = Name.FixedWidth(18);
 
-            account.Line = Sugar.ComposeLine<SerializedAccount>(accountFields, account);
+            account.Line = Sugar.ComposeLine<SerializedAccount>(
+                    method, accountFields, account);
             
             return account;
         }

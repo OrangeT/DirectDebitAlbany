@@ -40,7 +40,7 @@ namespace OrangeTentacle.DirectDebitAlbany
             return val.PadLeft(length, '0');
         }
 
-        public static string ComposeLine<T>(string[] fields, object target)
+        public static string ComposeLine<T>(SerializeMethod method, string[] fields, object target)
         {
             var composed = new StringBuilder();
             

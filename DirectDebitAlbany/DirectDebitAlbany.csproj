@@ -52,6 +52,7 @@
     <Compile Include="Record.cs" />
     <Compile Include="SerializedAccount.cs" />
     <Compile Include="SerializedRecord.cs" />
+    <Compile Include="SerializeMethod.cs" />
     <Compile Include="TransCode.cs" />
     <Compile Include="Sugar.cs" />
   </ItemGroup>

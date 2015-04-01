@@ -211,7 +211,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 {
                     var account = new BankAccount(number, SORTCODE, NAME, bank);
 
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.Equal(expected, serialize.Number);
                 }
@@ -224,7 +224,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 {
                     var account = new BankAccount(NUMBER, SORTCODE, NAME);
 
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.Equal(SORTCODE, serialize.SortCode);
                 }
@@ -237,7 +237,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 {
                     var account = new BankAccount(NUMBER, SORTCODE, NAME);
 
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.True(Regex.IsMatch(serialize.Name, @"^[A-Z\s]+$"));
                 }
@@ -247,7 +247,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 {
                     var longname = "Mr Bob Johnny Martin Horrocks III";
                     var account = new BankAccount(NUMBER, SORTCODE, longname);
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.Equal("MR BOB JOHNNY MART", serialize.Name);
                 }
@@ -257,7 +257,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 {
                     var shortname = "Bob";
                     var account = new BankAccount(NUMBER, SORTCODE, shortname);
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     Assert.Equal("BOB               ", serialize.Name);
                 }
@@ -271,7 +271,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var account = new BankAccount(BankAccountTest.NUMBER, 
                             BankAccountTest.SORTCODE, BankAccountTest.NAME);
 
-                    var serialize = account.Serialize();
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth);
 
                     var composed = serialize.SortCode + serialize.Number + serialize.Name;
 
@@ -288,7 +288,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var account = new BankAccount(BankAccountTest.NUMBER, 
                             BankAccountTest.SORTCODE, BankAccountTest.NAME);
 
-                    var serialize = account.Serialize(properties);
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth, properties);
 
                     var composed = "";
                     foreach(var prop in properties)
@@ -309,7 +309,7 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                     var account = new BankAccount(BankAccountTest.NUMBER,
                             BankAccountTest.SORTCODE, BankAccountTest.NAME);
 
-                    var serialize = account.Serialize(configuration);
+                    var serialize = account.Serialize(SerializeMethod.FixedWidth, configuration);
 
                     Assert.Equal(serialize.Number, serialize.Line);
                 }

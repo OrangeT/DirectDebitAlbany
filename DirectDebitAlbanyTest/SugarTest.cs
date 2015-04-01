@@ -115,7 +115,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var properties = new [] { "Property1", "Property2" };
                 var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
-                var line = Sugar.ComposeLine<SimpleClass>(properties, target);
+                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
+                        properties, target);
 
                 Assert.Equal("Property132", line);
             }
@@ -126,7 +127,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var properties = new [] { "PROPERTY1" };
                 var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
-                var line = Sugar.ComposeLine<SimpleClass>(properties, target);
+                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth, 
+                        properties, target);
 
                 Assert.Equal("Property1", line);
             }
@@ -137,7 +139,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var properties = new [] { "Property2", "Property1" };
                 var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
-                var line = Sugar.ComposeLine<SimpleClass>(properties, target);
+                var line = Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                        properties, target);
 
                 Assert.Equal("32Property1", line);
             }
@@ -149,7 +152,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
                 Assert.Throws<DirectDebitException>(
-                        () => Sugar.ComposeLine<SimpleClass>(properties, target));
+                        () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                                                             properties, target));
             }
 
             [Fact]
@@ -159,7 +163,8 @@ namespace OrangeTentacle.DirectDebitAlbany.Test
                 var target = new SimpleClass { Property1 = "Property1", Property2 = 32 };
 
                 Assert.Throws<DirectDebitException>(
-                        () => Sugar.ComposeLine<SimpleClass>(properties, target));
+                        () => Sugar.ComposeLine<SimpleClass>(SerializeMethod.FixedWidth,
+                                                             properties, target));
             }
 
             public class SimpleClass
